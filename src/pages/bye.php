@@ -1,4 +1,3 @@
-<?php
+<!-- example.com/src/pages/hello.php -->
 
-$response->setContent('goodbye!');
-$response->send();
+<h2>goodbye!</h2>
