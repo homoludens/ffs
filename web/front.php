@@ -16,7 +16,7 @@ function render_template($request)
 }
 
 $request = Request::createFromGlobals();
-$routes = include __DIR__.'/../src/app.php';
+$routes = include __DIR__.'/../src/app_year.php';
 
 $context = new Routing\RequestContext();
 $context->fromRequest($request);
