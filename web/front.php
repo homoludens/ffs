@@ -15,28 +15,20 @@ function render_template(Request $request)
 
   return new Response(ob_get_clean());
 }
+// example.com/web/front.php
 
+// ...
 $request = Request::createFromGlobals();
 $routes = include __DIR__.'/../src/app_year.php';
 
 $context = new Routing\RequestContext();
-$context->fromRequest($request);
 $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 
-$controllerResolver = new HttpKernel\Controller\ControllerResolver();
-$argumentResolver = new HttpKernel\Controller\ArgumentResolver();
+$controllerResolver = new ControllerResolver();
+$argumentResolver = new ArgumentResolver();
 
-try {
-  $request->attributes->add($matcher->match($request->getPathInfo()));
-
-  $controller = $controllerResolver->getController($request);
-  $arguments = $argumentResolver->getArguments($request, $controller);
-
-  $response = call_user_func_array($controller, $arguments);
-} catch (Routing\Exception\ResourceNotFoundException $exception) {
-  $response = new Response('Not Found', 404);
-} catch (Exception $exception) {
-  $response = new Response('An error occurred', 500);
-}
+$framework = new Simplex\Framework($matcher, $controllerResolver, $argumentResolver);
+$response = $framework->handle($request);
 
 $response->send();
+
