@@ -44,5 +44,7 @@ $dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'
 //streamed responses
 $dispatcher->addSubscriber(new HttpKernel\EventListener\StreamedResponseListener());
 
+$dispatcher->addSubscriber(new Simplex\StringResponseListener());
+
 $response = $framework->handle($request);
 $response->send();
